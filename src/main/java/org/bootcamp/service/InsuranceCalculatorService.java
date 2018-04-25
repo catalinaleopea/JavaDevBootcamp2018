@@ -6,20 +6,27 @@ import org.bootcamp.dao.VehicleInfoJsonFileDao;
 import org.bootcamp.formula.Formula;
 import org.bootcamp.model.VehicleInfo;
 import org.bootcamp.vehicle.Vehicle;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.bootcamp.service.ConversionUtils.getVehicle;
-
+@Component
 public final class InsuranceCalculatorService {
 
-    private final VehicleInfoDao dao;
+    private VehicleInfoDao dao;
 
-    public InsuranceCalculatorService(String filePath) {
+    @Value("${filepath}")
+    private String filePath;
 
-        this.dao = new VehicleInfoJsonFileDao(filePath);
+    @PostConstruct
+    public void init(){
+        dao = new VehicleInfoJsonFileDao(filePath);
     }
 
     public List<InsuranceCalculationResult> calculateAll() {
