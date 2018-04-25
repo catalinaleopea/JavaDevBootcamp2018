@@ -6,6 +6,7 @@ import org.bootcamp.dao.VehicleInfoJsonFileDao;
 import org.bootcamp.formula.Formula;
 import org.bootcamp.model.VehicleInfo;
 import org.bootcamp.vehicle.Vehicle;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -21,12 +22,8 @@ public final class InsuranceCalculatorService {
 
     private VehicleInfoDao dao;
 
-    @Value("${filepath}")
-    private String filePath;
-
-    @PostConstruct
-    public void init(){
-        dao = new VehicleInfoJsonFileDao(filePath);
+    public InsuranceCalculatorService(VehicleInfoDao dao) {
+        this.dao = dao;
     }
 
     public List<InsuranceCalculationResult> calculateAll() {
